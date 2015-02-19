@@ -6,7 +6,7 @@ export class Mediator {
     }
 
     subscribe(channel, fn) {
-        if(!this.channels[channel]) this.channels[channel] = [];
+        if (!this.channels[channel]) this.channels[channel] = [];
 
         this.channels[channel].push({
             context: this,
@@ -15,14 +15,13 @@ export class Mediator {
     }
 
     publish(channel) {
-        if(!this.channels[channel]) return false;
+        if (!this.channels[channel]) return false;
 
         var args = Array.prototype.slice.call(arguments, 1);
 
-        for(var i = 0, length = this.channels[channel].length; i < length; i++) {
-            var subscription = this.channels[channel][i];
+        this.channels[channel].forEach(function(subscription) {
             subscription.callback.apply(subscription.context, args);
-        }
+        });
 
         return this;
     }

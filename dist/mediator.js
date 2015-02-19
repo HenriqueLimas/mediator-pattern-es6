@@ -30,10 +30,9 @@ var Mediator = exports.Mediator = (function () {
                     return false;
                 }var args = Array.prototype.slice.call(arguments, 1);
 
-                for (var i = 0, length = this.channels[channel].length; i < length; i++) {
-                    var subscription = this.channels[channel][i];
+                this.channels[channel].forEach(function (subscription) {
                     subscription.callback.apply(subscription.context, args);
-                }
+                });
 
                 return this;
             },
